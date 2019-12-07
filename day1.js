@@ -1,9 +1,14 @@
 const findFuel = arr => {
-  let fuel = 0;
-  for (let i in arr) {
-    fuel += (Math.floor(arr[i] / 3) - 2);
+  let totalF = 0;
+  let addFuel = (num) => {
+    let additionalFuel = (Math.floor(num / 3) - 2);
+    return additionalFuel > 0 ? additionalFuel + addFuel(additionalFuel) : 0;
   }
-  return fuel;
+  for (let i in arr) {
+    fuel = (Math.floor(arr[i] / 3) - 2);
+    totalF += fuel + addFuel(fuel);
+  }
+  return totalF;
 }
 let nums = [
   1969
