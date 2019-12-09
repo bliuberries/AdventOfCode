@@ -17,7 +17,7 @@ const crossedWires = (string) => {
             grid[y][j] = 'a';
           } else if (i === 1) {
             grid[y][j] === undefined ? grid[y][j] = 'b' : grid[y][j] += 'b';
-            if(grid[y][j] === 'ab') steps.push([y, j]);
+            if(grid[y][j] === 'ab') steps.push([y, j, {w2Index: k}]);
           }
         }
         x = x + num;
@@ -29,7 +29,7 @@ const crossedWires = (string) => {
             grid[y][j] = 'a';
           } else if (i === 1) {
             grid[y][j] === undefined ? grid[y][j] = 'b' : grid[y][j] += 'b';
-            if(grid[y][j] === 'ab') steps.push([y, j]);
+            if(grid[y][j] === 'ab') steps.push([y, j, {w2Index: k}]);
           }
         }
         x = x - num;
@@ -41,7 +41,7 @@ const crossedWires = (string) => {
             grid[j][x] = 'a';
           } else if (i === 1) {
             grid[j][x] === undefined ? grid[j][x] = 'b' : grid[j][x] += 'b';
-            if(grid[j][x] === 'ab') steps.push([j, x]);
+            if(grid[j][x] === 'ab') steps.push([j, x, {index: k}]);
           }
         }
         y = y - num;
@@ -53,7 +53,7 @@ const crossedWires = (string) => {
             grid[j][x] = 'a';
           } else if (i === 1) {
             grid[j][x] === undefined ? grid[j][x] = 'b' : grid[j][x] += 'b';
-            if(grid[j][x] === 'ab') steps.push([j, x]);
+            if(grid[j][x] === 'ab') steps.push([j, x, {index: k}]);
           }
         }
         y = y + num;
