@@ -1,28 +1,58 @@
 let findOrbits = (arr) => {
   let planets = {}, orbits = 0;
   arr = arr.map(x => x.split(')'));
-  for(let i = 0; i < arr.length; i++) {
-    if(planets[arr[i][0]] === undefined) {
+  for (let i = 0; i < arr.length; i++) {
+    if (planets[arr[i][0]] === undefined) {
       planets[arr[i][0]] = [arr[i][1]];
     } else {
       planets[arr[i][0]].push(arr[i][1]);
     }
   }
+  const youNSan = [0, 0]; //part 2
   const countOrbit = (p = 'COM', count = 1) => {
     let arr = planets[p];
-    for(let i = 0; i < arr.length; i++) {    
-      if(planets[arr[i]] !== undefined) {      
-        orbits += count;      
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i] === 'YOU') youNSan[0] = [count, p]; //part 2
+      if (arr[i] === 'SAN') youNSan[1] = [count, p]; //part 2
+      if (planets[arr[i]] !== undefined) {
+        orbits += count;
         countOrbit(arr[i], count + 1);
-      } else {      
-        orbits += count;      
+      } else {
+        orbits += count;
       }
     }
   }
   countOrbit();
+  let pTrail = [{ count: 1, trail: [youNSan[0][1]] }, { count: 1, trail: [youNSan[1][1]] }];
+  const findSanta = (target, p) => {
+    let home = p;
+    for (let i = 0; i < arr.length; i++) {
+      if (arr[i][1] === home) {
+        pTrail[target].count++
+        pTrail[target].trail.push(arr[i][0])
+        home = arr[i][0]
+        if(home === 'COM')break;
+        i = 0
+      }
+    }
+  }
+  findSanta(0, youNSan[0][1]);
+  findSanta(1, youNSan[1][1]);
+  let found = false;
+  for(let i = 0; i < pTrail[0].trail.length; i++) {
+    for(let k = 0; k < pTrail[1].trail.length; k++) {
+      if(pTrail[0].trail[i] === pTrail[1].trail[k]) {
+        console.log('Distance between you and santa is', i + k );
+        found = true;
+      }
+      if(found) break;
+    }
+    if(found) break;
+  }
   return orbits
 }
-let test1 = ["COM)B", "B)C", "C)D", "D)E", "E)F", "B)G", "G)H", "D)I", "E)J", "J)K", "K)L"];
+let test1 = ["COM)B", "B)C", "C)D", "D)E", "E)F", "B)G", "G)H", "D)I", "E)J", "J)K", "K)L", 'K)YOU',
+'I)SAN'];
 
 let day6 = [
   "COM)1Z6",
@@ -1342,3 +1372,4 @@ let day6 = [
   "BL8)GCP"
 ]
 console.log(findOrbits(day6));
+console.log(findOrbits(test1));
